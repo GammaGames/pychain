@@ -20,7 +20,8 @@ class Chain():
         self.validate_chain()
         self.data = []
 
-    def __del__(self):
+    def save_archive(self):
+        print("GOODBOYE")
         with open(self.text_file, 'r') as src, gzip.open(self.archive_file, 'wt') as dest:
             dest.write(src.read())
         os.remove(self.text_file)
@@ -29,7 +30,7 @@ class Chain():
         if os.path.isfile(self.archive_file):
             with gzip.open(self.archive_file, 'rt') as src, open(self.text_file, 'w') as dest:
                 dest.write(src.read())
-            return True
+            return False
         elif not os.path.isfile(self.text_file) or os.stat(self.text_file).st_size == 0:
             f = open(self.text_file, 'w')
             f.close()
@@ -132,7 +133,6 @@ class Chain():
                 results.append(block.get_data())
 
         return results
-
 
 def main():
     b = Chain()

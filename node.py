@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from block import *
 from chain import *
+import signal
 # from helper import *
 from datetime import datetime
 import requests
@@ -12,6 +13,11 @@ blockchain = Chain()
 my_transactions = []
 peer_nodes = []
 miner_address = "q3nf394hjg-random-miner-address-34nf3i4nflkn3oi"
+
+def handle_sigint(signal, frame):
+    blockchain.save_archive()
+    exit()
+signal.signal(signal.SIGINT, handle_sigint)
 
 @node.route("/transaction", methods=["POST"])
 def transaction():
@@ -43,13 +49,6 @@ def mine():
 def blocks():
     return jsonify(blockchain.get_chain())
 
-
-# def proof_of_work(last_proof):
-#     incrementor = last_proof + 1
-#     while not (incrementor % 9 == 0 and incrementor % last_proof == 0):
-#         incrementor += 1
-#     return incrementor
-
 def find_new_chains():
     other_chains = []
     for url in peer_nodes:
@@ -66,4 +65,4 @@ def consensus():
             longest_chain = chain
     blockchain = longest_chain
 
-node.run(debug=True)
+node.run()
