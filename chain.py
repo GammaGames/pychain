@@ -21,7 +21,6 @@ class Chain():
         self.data = []
 
     def save_archive(self):
-        print("GOODBOYE")
         with open(self.text_file, 'r') as src, gzip.open(self.archive_file, 'wt') as dest:
             dest.write(src.read())
         os.remove(self.text_file)
