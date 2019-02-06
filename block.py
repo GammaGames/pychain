@@ -1,8 +1,10 @@
 import hashlib
-from datetime import datetime
+
 
 class Block:
-    def __init__(self, index, timestamp, data, previous_hash, nonce, num_zeroes, hash=None):
+    def __init__(self, index, timestamp, data, previous_hash, nonce, num_zeroes):
+        """A basic block, will create its hash on its own
+        """
         self.index = index
         self.timestamp = timestamp
         self.data = data
@@ -11,10 +13,11 @@ class Block:
         self.num_zeroes = num_zeroes
         self.hash = self.hash_block()
 
-    def __str__(self):
-        return f"\nINDEX: {self.index}\nDATA:  {self.data}\nHASH:  {self.hash}"
-
     def get_data(self):
+        """Get a dictionary representation of the block
+        Returns
+            data : dict
+        """
         return {
             "index": self.index,
             "timestamp": self.timestamp,
@@ -26,6 +29,10 @@ class Block:
         }
 
     def hash_block(self):
+        """Get hash for block
+        Returns
+            hash : str
+        """
         sha = hashlib.sha256()
         block = f"{self.index}{self.timestamp}{self.data}" + \
             f"{self.previous_hash}{self.num_zeroes}{self.nonce}"

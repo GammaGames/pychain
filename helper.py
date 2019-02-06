@@ -1,6 +1,13 @@
 import hashlib
 
+
 def proof_of_work(previous_hash, num_zeroes=5):
+    """
+    Uses `previous_hash` to solve for a `nonce`, where the resulting
+        hash starts with a number of zero bits ( number_of_zeroes ).
+    Returns
+        nonce : int
+    """
     nonce = None
     incrementor = 0
     leading_zeroes = '0' * num_zeroes
